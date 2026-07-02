@@ -1,7 +1,6 @@
 import logging
-
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.agent.agent import run_chat
 from app.models import ChatRequest, ChatResponse, HealthResponse
 from app.retrieval.retriever import get_retriever
@@ -10,6 +9,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("shl-recommender")
 
 app = FastAPI(title="SHL Assessment Recommender")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
